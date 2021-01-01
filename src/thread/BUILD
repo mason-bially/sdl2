@@ -1,14 +1,12 @@
 load("//:sdl_config.bzl", "SDL_LOCALDEFINES")
 
 SDL_PLATFORM_HDRS = select({
-	"@bazel_tools//src/conditions:windows": glob(["windows/*.h"]),
-	"@bazel_tools//src/conditions:linux_x86_64": glob(["pthread/*.h"]),
-	"//conditions:default": glob(["stdcpp/*.h"]),
+	"@bazel_tools//src/conditions:windows": glob(["windows/*.h", "generic/*.h"]),
+	"//conditions:default": glob(["stdcpp/*.h", "pthread/*.h", "generic/*.h"]),
 })
 SDL_PLATFORM_SRCS = select({
-	"@bazel_tools//src/conditions:windows": glob(["windows/*.c"]),
-	"@bazel_tools//src/conditions:linux_x86_64": glob(["pthread/*.c"]),
-	"//conditions:default": glob(["stdcpp/*.c"]),
+	"@bazel_tools//src/conditions:windows": glob(["windows/*.c"]) + ["generic/SDL_syscond.c"],
+	"//conditions:default": glob(["stdcpp/*.c", "pthread/*.c", "generic/*.c"]),
 })
 
 cc_library(
@@ -26,7 +24,7 @@ cc_library(
 
 cc_library(
     name = "hdrs",
-	hdrs = glob(["*.h", "generic/*.h"]) + SDL_PLATFORM_HDRS,
+	hdrs = glob(["*.h"]) + SDL_PLATFORM_HDRS,
 
 	local_defines = SDL_LOCALDEFINES,
 	visibility = ["//visibility:public"],
