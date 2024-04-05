@@ -66,7 +66,10 @@ cc_binary(
 
 cc_library(
 	name = "SDL2_lib",
-	srcs = glob(["src/**/*.c"]),
+	srcs = glob(["src/**/*.c", "include/**/*.h"]),
+	hdrs = glob(["include/**/*.h"]),
+	strip_include_prefix = "include",
+    include_prefix = "SDL2",
 
 	deps = [
 		":SDL2_hdrs",
