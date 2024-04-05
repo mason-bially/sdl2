@@ -28,23 +28,23 @@ cc_library(
 	visibility = ["//visibility:public"],
 )
 
-
-apple_binary(
-	name = "SDL2_mac",
-	binary_type = "dylib",
-	deps = [
-		":SDL2_lib",
-	],
-	platform_type = "macos",
-	visibility = ["//:__subpackages__"],
-)
-
-genrule(
-	name = "SDL2_dylib",
-	srcs = ["SDL2_mac"],
-	outs = ["SDL2.dylib"],
-	cmd = "cp $(location SDL2_mac) $(location SDL2.dylib)",
-)
+# read this shit: https://github.com/bazelbuild/rules_apple/blob/master/doc/rules-apple.md
+#apple_binary(
+#	name = "SDL2_mac",
+#	binary_type = "dylib",
+#	deps = [
+#		":SDL2_lib",
+#	],
+#	platform_type = "macos",
+#	visibility = ["//:__subpackages__"],
+#)
+#
+#genrule(
+#	name = "SDL2_dylib",
+#	srcs = ["SDL2_mac"],
+#	outs = ["SDL2.dylib"],
+#	cmd = "cp $(location SDL2_mac) $(location SDL2.dylib)",
+#)
 
 cc_binary(
 	name = "libSDL2.so",
